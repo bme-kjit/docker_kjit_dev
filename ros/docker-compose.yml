@@ -1,12 +1,16 @@
 version: '3'
 services:
   ros-dev:
-    image: ros_dev
+    image: ros-dev
     volumes:
+     - /home:/home
      - /:/mnt/host
      - /cache/hdd/workspace:/workspace:rw
      - $HOME:/home/$USER
      - ./entry.sh:/entry.sh
+     - /mnt/hdd/zlo2bp:/cache
+     - /etc/krb5.conf:/etc/krb5.conf:ro                      # Mount Kerberos ticket for authentication
+     - /etc/krb5.conf.d/:/etc/krb5.conf.d/:ro                # Mount Kerberos ticket for authentication?
      - $HOME/.Xauthority:/root/.Xauthority:rw
      - /tmp/.X11-unix:/tmp/.X11-unix
      - /etc/sudoers:/etc/sudoers:ro                          # inherit sudoers settings from hosts
