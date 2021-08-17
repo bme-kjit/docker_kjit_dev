@@ -21,12 +21,14 @@ services:
       - _JAVA_OPTIONS=-Duser.home=/home/$USER/    # for Java based apps, i.e. PyCharm, CLion
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:
-    - /home/$USER/:/home/$USER
-    - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    - /mnt:/mnt
-    - /cache/hdd:/cache
-    - /tmp:/tmp
-    - ../entry.sh:/entry.sh
+      - /home/$USER/:/home/$USER
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /mnt:/mnt
+      - /cache/hdd:/cache
+      - /etc/krb5.conf:/etc/krb5.conf:ro                      # Mount Kerberos ticket for authentication
+      - /etc/krb5.conf.d/:/etc/krb5.conf.d/:ro                # Mount Kerberos ticket for authentication?
+      - /tmp:/tmp
+      - ../entry.sh:/entry.sh
     ports:
       - "1234:22"
     links:

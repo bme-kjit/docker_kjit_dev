@@ -1,7 +1,7 @@
 version: '3'
 services:
   sumo-dev:
-    image: szokelaszlo95/sumo-dev
+    image: sumo-dev
     volumes:
      - /home:/home
      - /:/mnt/host
