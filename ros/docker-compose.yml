@@ -1,16 +1,13 @@
 version: '3'
 services:
   ros-dev:
-    image: ros-dev
+    image: szokelaszlo95/ros-dev
     volumes:
      - /home:/home
      - /:/mnt/host
-     - /cache/hdd/workspace:/workspace:rw
+     - /home/$USER/workspace:/workspace:rw
      - $HOME:/home/$USER
      - ./entry.sh:/entry.sh
-     - /mnt/hdd/zlo2bp:/cache
-     - /etc/krb5.conf:/etc/krb5.conf:ro                      # Mount Kerberos ticket for authentication
-     - /etc/krb5.conf.d/:/etc/krb5.conf.d/:ro                # Mount Kerberos ticket for authentication?
      - $HOME/.Xauthority:/root/.Xauthority:rw
      - /tmp/.X11-unix:/tmp/.X11-unix
      - /etc/sudoers:/etc/sudoers:ro                          # inherit sudoers settings from hosts
@@ -21,6 +18,8 @@ services:
     - DISPLAY=${DISPLAY}
     - HOST_USER=$USER
     - HOST_UID=$UID
+    - ROS_MASTER_URI=http://192.168.1.101:11311
+    - ROS_IP=192.168.0.19
     - CATKIN_WS=/workspace/catkin_ws
     - QT_X11_NO_MITSHM=1
     - NVIDIA_VISIBLE_DEVICES=all
@@ -28,6 +27,7 @@ services:
     entrypoint: ["/entry.sh"]
 
     ipc: host
+    network_mode: "host"
 
     container_name: ros
     hostname: ros-dev
@@ -37,3 +37,4 @@ services:
       - SYS_PTRACE
     security_opt:
       - seccomp:unconfined
+
