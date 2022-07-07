@@ -1,12 +1,12 @@
 version: '3'
 services:
-  sumo-dev:
+  sumo:
     image: sumo-dev
     volumes:
      - /home:/home
      - /:/mnt/host
+     - /cache:/cache
      - ./entry.sh:/entry.sh
-     - /mnt/hdd/zlo2bp:/cache
      - /etc/krb5.conf:/etc/krb5.conf:ro                      # Mount Kerberos ticket for authentication
      - /etc/krb5.conf.d/:/etc/krb5.conf.d/:ro                # Mount Kerberos ticket for authentication?
      - $HOME/.Xauthority:/root/.Xauthority:rw

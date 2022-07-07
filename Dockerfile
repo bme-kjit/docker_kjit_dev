@@ -1,7 +1,8 @@
 # Options: company, bme
 ARG LOC
 
-ARG BASE_IMG=pytorch/pytorch:1.6.0-cuda10.1-cudnn7-devel
+ARG BASE_IMG=pytorch/pytorch:1.11.0-cuda11.3-cudnn8-runtime
+#pytorch/pytorch:1.6.0-cuda10.1-cudnn7-devel
 # Defining the building bases for the different versions
 ARG CARLA_BASE=python
 ARG ROS_BASE=carla
@@ -73,11 +74,9 @@ RUN echo "PYTHONPATH=/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/us
 
 RUN conda update -n base -c defaults conda
 RUN conda install pandas
-RUN conda install tensorflow-gpu==2.1.0
-RUN conda install tensorflow-estimator==2.1.0
+#RUN conda install tensorflow-gpu==2.1.0
+#RUN conda install tensorflow-estimator==2.1.0
 
-COPY entry.sh /entry.sh
-RUN chmod +x /entry.sh
 ENTRYPOINT /entry.sh
 
 FROM python_img AS sumo_img
@@ -106,5 +105,5 @@ FROM ${TEMP_IMAGE}_img as final_image
 RUN pip install gym[atari]
 RUN pip install pytorch-lightning-bolts
 RUN pip install pytorch-lightning-bolts["extra"]
-RUN pip install gym==0.12.5 pygame==1.9.6 scikit-image==0.16.2
+RUN pip install gym pygame scikit-image
 RUN pip install lxml
