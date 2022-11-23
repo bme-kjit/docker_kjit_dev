@@ -1,27 +1,30 @@
 version: '3'
 services:
   sumo:
-    image: sumo-dev
+    image: szokelaszlo95/sumo-dev
     volumes:
      - /home:/home
-     - /:/mnt/host
      - /cache:/cache
+     - /:/mnt/host
      - ./entry.sh:/entry.sh
-     - /etc/krb5.conf:/etc/krb5.conf:ro                      # Mount Kerberos ticket for authentication
-     - /etc/krb5.conf.d/:/etc/krb5.conf.d/:ro                # Mount Kerberos ticket for authentication?
+     - ./user_entry.sh:/user_entry.sh
      - $HOME/.Xauthority:/root/.Xauthority:rw
      - /tmp/.X11-unix:/tmp/.X11-unix
      - /etc/sudoers:/etc/sudoers:ro                          # inherit sudoers settings from hosts
-     
+     - /etc/passwd:/etc/passwd:ro
+     - /etc/shadow:/etc/shadow:ro
     environment:
     - DISPLAY=${DISPLAY}
     - QT_X11_NO_MITSHM=1
+    - USER=$USER
+    - UID=$UID
     - HOST_USER=$USER
+    - WORKSPACE=$WORKSPACE
     - HOST_UID=$UID
     - _JAVA_OPTIONS=-Duser.home=/home/$USER/    # for Java based apps, i.e. PyCharm, CLion
     - NVIDIA_VISIBLE_DEVICES=all
+    runtime: nvidia
     entrypoint: ["/entry.sh","true"]
-
     ports:
       - "1234:22"
     ipc: host
